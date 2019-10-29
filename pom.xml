@@ -40,6 +40,7 @@
 					<!-- deploy makes many things, but we dont want that
 						so we just overrides that stage to install-->
 					<goals>install</goals>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
 		</plugins>
