@@ -9,11 +9,13 @@ import java.time.LocalDate;
 /**
  * @author Krzysztof Kukla
  */
+@Entity
 @Getter
 @Setter
-@Entity
-public class Pet extends BaseEntity {
-    private PetType petType;
-    private Owner owner;
-    private LocalDate birthDate;
+public class Visit extends BaseEntity {
+
+    private LocalDate localDate;
+    private String description;
+    private Pet pe;
+
 }
