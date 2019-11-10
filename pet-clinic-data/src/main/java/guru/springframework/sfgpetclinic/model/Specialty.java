@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import java.util.Set;
 
 /**
  * @author Krzysztof Kukla
@@ -12,6 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-public class Vet extends Person {
-    private Set<Specialty> specialties;
+public class Specialty extends BaseEntity {
+    private String description;
+
 }
