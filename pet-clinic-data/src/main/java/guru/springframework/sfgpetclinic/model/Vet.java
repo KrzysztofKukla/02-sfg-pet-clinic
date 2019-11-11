@@ -13,5 +13,5 @@ import java.util.Set;
 @Getter
 @Setter
 public class Vet extends Person {
-    private Set<Specialty> specialties = new HashSet<>();
+    private Set<Speciality> specialties = new HashSet<>();
 }
