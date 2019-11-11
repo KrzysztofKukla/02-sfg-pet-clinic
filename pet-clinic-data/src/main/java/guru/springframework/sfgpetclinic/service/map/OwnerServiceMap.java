@@ -34,6 +34,7 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
     }
 
     //to demonstrate and mimic how Hibernate does that
+    //here we're doing manually
     @Override
     public Owner save(Owner object) {
         if (object != null) {

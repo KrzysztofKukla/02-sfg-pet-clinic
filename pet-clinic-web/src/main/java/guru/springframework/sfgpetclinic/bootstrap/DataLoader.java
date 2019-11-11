@@ -4,9 +4,11 @@ import guru.springframework.sfgpetclinic.model.BaseEntity;
 import guru.springframework.sfgpetclinic.model.Owner;
 import guru.springframework.sfgpetclinic.model.Pet;
 import guru.springframework.sfgpetclinic.model.PetType;
+import guru.springframework.sfgpetclinic.model.Speciality;
 import guru.springframework.sfgpetclinic.model.Vet;
 import guru.springframework.sfgpetclinic.service.OwnerService;
 import guru.springframework.sfgpetclinic.service.PetTypeService;
+import guru.springframework.sfgpetclinic.service.SpecialityService;
 import guru.springframework.sfgpetclinic.service.VetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -24,9 +26,20 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
+    private final SpecialityService specialityService;
 
     @Override
     public void run(String... args) throws Exception {
+
+        if (petTypeService.findAll().isEmpty()) {
+            loadData();
+        }
+    }
+
+    private void loadData() {
+        Speciality radiology = createSpeciality("radiology");
+        Speciality surgery = createSpeciality("surgery");
+        Speciality dentistry = createSpeciality("dentistry");
 
         PetType dogPetType = createPetType("dogPetType");
         Owner owner1 = createOwner("Michael", "Weston", "Kasztanowa 31", "Krakow", "12345");
@@ -42,11 +55,16 @@ public class DataLoader implements CommandLineRunner {
         System.out.println("List of owners: ");
         displayEnties(ownerService.findAll());
 
-        createVet("Sam", "Axe");
-        createVet("Jessie", "Porter");
+        createVet("Sam", "Axe", radiology);
+        createVet("Jessie", "Porter", surgery);
         System.out.println("List of vets: ");
         displayEnties(vetService.findAll());
+    }
 
+    private Speciality createSpeciality(String description) {
+        Speciality speciality = new Speciality();
+        speciality.setDescription(description);
+        return specialityService.save(speciality);
     }
 
     private Pet createPet(PetType petType, Owner owner, LocalDate birthDate, String name) {
@@ -64,10 +82,11 @@ public class DataLoader implements CommandLineRunner {
         return petTypeService.save(petType);
     }
 
-    private void createVet(String firstName, String lastName) {
+    private void createVet(String firstName, String lastName, Speciality speciality) {
         Vet vet = new Vet();
         vet.setFirstName(firstName);
         vet.setLastName(lastName);
+        vet.getSpecialties().add(speciality);
         vetService.save(vet);
     }
 
