@@ -2,6 +2,7 @@ package guru.springframework.sfgpetclinic.bootstrap;
 
 import guru.springframework.sfgpetclinic.model.BaseEntity;
 import guru.springframework.sfgpetclinic.model.Owner;
+import guru.springframework.sfgpetclinic.model.Pet;
 import guru.springframework.sfgpetclinic.model.PetType;
 import guru.springframework.sfgpetclinic.model.Vet;
 import guru.springframework.sfgpetclinic.service.OwnerService;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 /**
@@ -26,19 +28,34 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        PetType dog = createPetType("dog");
-        PetType cat = createPetType("cat");
+        PetType dogPetType = createPetType("dogPetType");
+        Owner owner1 = createOwner("Michael", "Weston", "Kasztanowa 31", "Krakow", "12345");
+        Pet mikesPet = createPet(dogPetType, owner1, LocalDate.now(), "Rosco");
+        owner1.getPets().add(mikesPet);
+        ownerService.save(owner1);
 
-        populateOwners("Michael", "Weston");
-        populateOwners("Fiona", "Glenanne");
+        PetType catPetType = createPetType("catPetType");
+        Owner owner2 = createOwner("Fiona", "Glenanne", "Krakowska 56", "Warszawa", "78899");
+        Pet fionaCat = createPet(catPetType, owner2, LocalDate.now(), "just cat");
+        owner2.getPets().add(fionaCat);
+        ownerService.save(owner2);
         System.out.println("List of owners: ");
         displayEnties(ownerService.findAll());
 
-        populateVets("Sam", "Axe");
-        populateVets("Jessie", "Porter");
+        createVet("Sam", "Axe");
+        createVet("Jessie", "Porter");
         System.out.println("List of vets: ");
         displayEnties(vetService.findAll());
 
+    }
+
+    private Pet createPet(PetType petType, Owner owner, LocalDate birthDate, String name) {
+        Pet pet = new Pet();
+        pet.setPetType(petType);
+        pet.setOwner(owner);
+        pet.setBirthDate(birthDate);
+        pet.setName(name);
+        return pet;
     }
 
     private PetType createPetType(String name) {
@@ -47,7 +64,7 @@ public class DataLoader implements CommandLineRunner {
         return petTypeService.save(petType);
     }
 
-    private void populateVets(String firstName, String lastName) {
+    private void createVet(String firstName, String lastName) {
         Vet vet = new Vet();
         vet.setFirstName(firstName);
         vet.setLastName(lastName);
@@ -60,11 +77,14 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 
-    private void populateOwners(String firstName, String lastName) {
+    private Owner createOwner(String firstName, String lastName, String address, String city, String telephone) {
         Owner owner = new Owner();
         owner.setFirstName(firstName);
         owner.setLastName(lastName);
-        ownerService.save(owner);
+        owner.setAddress(address);
+        owner.setCity(city);
+        owner.setTelephone(telephone);
+        return owner;
     }
 
 }
