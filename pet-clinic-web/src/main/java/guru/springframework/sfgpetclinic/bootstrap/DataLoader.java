@@ -1,5 +1,6 @@
 package guru.springframework.sfgpetclinic.bootstrap;
 
+import guru.springframework.sfgpetclinic.model.BaseEntity;
 import guru.springframework.sfgpetclinic.model.Owner;
 import guru.springframework.sfgpetclinic.model.Vet;
 import guru.springframework.sfgpetclinic.service.OwnerService;
@@ -21,44 +22,36 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Owner owner1 = new Owner();
-        owner1.setFirstName("Michael");
-        owner1.setLastName("Weston");
+        populateOwners("Michael", "Weston");
+        populateOwners("Fiona", "Glenanne");
+        System.out.println("List of owners: ");
+        displayEnties(ownerService.findAll());
 
-        ownerService.save(owner1);
+        populateVets("Sam", "Axe");
+        populateVets("Jessie", "Porter");
+        System.out.println("List of vets: ");
+        displayEnties(vetService.findAll());
 
-        Owner owner2 = new Owner();
-        owner2.setFirstName("Fiona");
-        owner2.setLastName("Glenanne");
+    }
 
-        ownerService.save(owner2);
+    private void populateVets(String firstName, String lastName) {
+        Vet vet = new Vet();
+        vet.setFirstName(firstName);
+        vet.setLastName(lastName);
+        vetService.save(vet);
+    }
 
-        System.out.println("Loaded Owners....");
-
-        Vet vet1 = new Vet();
-        vet1.setFirstName("Sam");
-        vet1.setLastName("Axe");
-
-        vetService.save(vet1);
-
-        Vet vet2 = new Vet();
-        vet2.setFirstName("Jessie");
-        vet2.setLastName("Porter");
-
-        vetService.save(vet2);
-
-        System.out.println("Loaded Vets....");
-
-        Set<Owner> allOwners = ownerService.findAll();
-        for (Owner owner : allOwners) {
-            System.out.println(owner);
+    private void displayEnties(Set<? extends BaseEntity> entities) {
+        for (BaseEntity entity : entities) {
+            System.out.println(entity);
         }
+    }
 
-        Set<Vet> allVets = vetService.findAll();
-        for (Vet vet : allVets) {
-            System.out.println(vet);
-        }
-
+    private void populateOwners(String firstName, String lastName) {
+        Owner owner = new Owner();
+        owner.setFirstName(firstName);
+        owner.setLastName(lastName);
+        ownerService.save(owner);
     }
 
 }
