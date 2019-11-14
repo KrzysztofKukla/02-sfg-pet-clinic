@@ -14,7 +14,7 @@ import java.time.LocalDate;
  * @author Krzysztof Kukla
  */
 @Entity
-@Table(name = "pets")
+@Table(name = "pet")
 @Getter
 @Setter
 public class Pet extends BaseEntity {
@@ -22,7 +22,7 @@ public class Pet extends BaseEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "type_id")
+    @JoinColumn(name = "pet_type_id")
     private PetType petType;
 
     @ManyToOne

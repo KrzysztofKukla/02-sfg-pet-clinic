@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * @author Krzysztof Kukla
  */
 @Entity
-@Table(name = "types")
+@Table(name = "pet_type")
 @Getter
 @Setter
 public class PetType extends BaseEntity {
