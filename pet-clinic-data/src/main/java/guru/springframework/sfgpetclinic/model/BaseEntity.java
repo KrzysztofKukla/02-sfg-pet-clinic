@@ -12,6 +12,7 @@ import java.io.Serializable;
 /**
  * @author Krzysztof Kukla
  */
+//this indicates that object is not be created in database
 @MappedSuperclass
 @Getter
 @Setter
