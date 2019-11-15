@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class PetTypeServiceMap extends AbstractMapService<PetType, Long> implements PetTypeService {
+public class PetTypeMapService extends AbstractMapService<PetType, Long> implements PetTypeService {
 }
