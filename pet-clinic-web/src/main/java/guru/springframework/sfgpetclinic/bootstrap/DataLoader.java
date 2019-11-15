@@ -6,10 +6,12 @@ import guru.springframework.sfgpetclinic.model.Pet;
 import guru.springframework.sfgpetclinic.model.PetType;
 import guru.springframework.sfgpetclinic.model.Speciality;
 import guru.springframework.sfgpetclinic.model.Vet;
+import guru.springframework.sfgpetclinic.model.Visit;
 import guru.springframework.sfgpetclinic.service.OwnerService;
 import guru.springframework.sfgpetclinic.service.PetTypeService;
 import guru.springframework.sfgpetclinic.service.SpecialityService;
 import guru.springframework.sfgpetclinic.service.VetService;
+import guru.springframework.sfgpetclinic.service.VisitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,7 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialityService specialityService;
+    private final VisitService visitService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -52,6 +55,8 @@ public class DataLoader implements CommandLineRunner {
         Pet fionaCat = createPet(catPetType, owner2, LocalDate.now(), "just cat");
         owner2.getPets().add(fionaCat);
         ownerService.save(owner2);
+        createVisit(fionaCat, LocalDate.now(), "Snezzy Cat");
+
         System.out.println("List of owners: ");
         displayEnties(ownerService.findAll());
 
@@ -59,6 +64,14 @@ public class DataLoader implements CommandLineRunner {
         createVet("Jessie", "Porter", surgery);
         System.out.println("List of vets: ");
         displayEnties(vetService.findAll());
+    }
+
+    private Visit createVisit(Pet pet, LocalDate date, String description) {
+        Visit visit = new Visit();
+        visit.setPet(pet);
+        visit.setDate(date);
+        visit.setDescription(description);
+        return visitService.save(visit);
     }
 
     private Speciality createSpeciality(String description) {
