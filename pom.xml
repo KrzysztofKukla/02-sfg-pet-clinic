@@ -15,7 +15,7 @@
 
 	<groupId>guru.springframework</groupId>
 	<artifactId>02-sfg-pet-clinic</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.8-SNAPSHOT</version>
 	<name>02-sfg-pet-clinic</name>
 	<description>SFG Pet Clinic Project</description>
 
@@ -32,10 +32,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
 
-				<!-- as documentation says-> by default it will be on deploy stage -->
-				<!-- we will change it -->
+				<!-- as documentation says-> by default the release it will be done on deploy stage -->
+				<!-- but here we will change it to install stage-->
 				<configuration>
 					<!-- deploy makes many things, but we dont want that
 						so we just overrides that stage to install-->
