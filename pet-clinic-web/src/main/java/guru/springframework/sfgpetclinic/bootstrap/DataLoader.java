@@ -13,6 +13,7 @@ import guru.springframework.sfgpetclinic.service.SpecialityService;
 import guru.springframework.sfgpetclinic.service.VetService;
 import guru.springframework.sfgpetclinic.service.VisitService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,7 @@ import java.util.Set;
 /**
  * @author Krzysztof Kukla
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
@@ -40,6 +42,8 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void loadData() {
+        log.debug("Loading data...");
+
         Speciality radiology = createSpeciality("radiology");
         Speciality surgery = createSpeciality("surgery");
         Speciality dentistry = createSpeciality("dentistry");
@@ -57,13 +61,13 @@ public class DataLoader implements CommandLineRunner {
         ownerService.save(owner2);
         createVisit(fionaCat, LocalDate.now(), "Snezzy Cat");
 
-        System.out.println("List of owners: ");
-        displayEnties(ownerService.findAll());
+        log.info("List of owners: ");
+        displayEntities(ownerService.findAll());
 
         createVet("Sam", "Axe", radiology);
         createVet("Jessie", "Porter", surgery);
-        System.out.println("List of vets: ");
-        displayEnties(vetService.findAll());
+        log.info("List of vets: ");
+        displayEntities(vetService.findAll());
     }
 
     private Visit createVisit(Pet pet, LocalDate date, String description) {
@@ -103,7 +107,7 @@ public class DataLoader implements CommandLineRunner {
         vetService.save(vet);
     }
 
-    private void displayEnties(Set<? extends BaseEntity> entities) {
+    private void displayEntities(Set<? extends BaseEntity> entities) {
         for (BaseEntity entity : entities) {
             System.out.println(entity);
         }

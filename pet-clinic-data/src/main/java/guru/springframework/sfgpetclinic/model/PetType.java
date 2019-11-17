@@ -1,9 +1,11 @@
 package guru.springframework.sfgpetclinic.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -14,10 +16,9 @@ import javax.persistence.Table;
 @Table(name = "pet_type")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PetType extends BaseEntity {
-    @Column(name = "name")
     private String name;
-
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "petType")
-//    private Set<Pet> pets;
 }

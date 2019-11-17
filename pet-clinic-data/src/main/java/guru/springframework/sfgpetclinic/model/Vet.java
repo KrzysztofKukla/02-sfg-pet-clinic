@@ -1,6 +1,9 @@
 package guru.springframework.sfgpetclinic.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -20,6 +23,9 @@ import java.util.Set;
 @Table(name = "vet")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class Vet extends Person {
     @ManyToMany(fetch = FetchType.EAGER)
