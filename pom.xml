@@ -36,7 +36,7 @@
 				<!-- as documentation says-> by default the release it will be done on deploy stage -->
 				<!-- but here we will change it to install stage-->
 				<configuration>
-					<!-- deploy makes many things, but we dont want that
+					<!-- deploy goal makes many things, but we dont want that
 						so we just overrides that stage to install-->
 					<goals>install</goals>
 					<autoVersionSubmodules>true</autoVersionSubmodules>

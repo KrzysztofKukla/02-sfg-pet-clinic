@@ -29,7 +29,7 @@ public class OwnerMapService extends AbstractMapService<Owner, Long> implements 
             .filter(entry -> entry.getValue().getLastName().equals(lastName))
             .findFirst();
         if (!first.isPresent()) {
-            throw new RuntimeException();
+            throw new RuntimeException("Invalid lastName-> " + lastName);
         }
         return first.get().getValue();
 
