@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 /**
  * @author Krzysztof Kukla
@@ -23,6 +24,7 @@ class OwnerMapServiceTest {
 
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.initMocks(this);
         ownerMapService = new OwnerMapService(petTypeService, petService);
     }
 
