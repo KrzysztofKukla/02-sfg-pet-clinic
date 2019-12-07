@@ -4,7 +4,9 @@ import guru.springframework.sfgpetclinic.service.OwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +19,19 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class OwnerController {
     private final OwnerService ownerService;
+
+    /**
+     * @InitBinder is very old Spring stuff and is not used in modern technology application
+     * it allows to configuration binding variables from Java to Html especially like post form
+     **/
+    @InitBinder
+    public void setAllowedFields(WebDataBinder dataBinder) {
+        /**
+         * here we don't want bind 'id' property because security wise
+         * we want to avoid 'id' field access to user, because he could change that in database
+         */
+        dataBinder.setDisallowedFields("id");
+    }
 
     @RequestMapping({"", "/index"})
     public String ownersList(Model model) {
