@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,6 +35,12 @@ public class OwnerMapService extends AbstractMapService<Owner, Long> implements 
         }
         return first.get().getValue();
 
+    }
+
+    @Override
+    public List<Owner> findAllByLastNameLike(String lastName) {
+        //TODO
+        return Collections.emptyList();
     }
 
     //to demonstrate and mimic how Hibernate does that

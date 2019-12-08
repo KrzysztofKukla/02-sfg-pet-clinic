@@ -1,15 +1,19 @@
 package guru.springframework.sfgpetclinic.controller;
 
+import guru.springframework.sfgpetclinic.model.Owner;
 import guru.springframework.sfgpetclinic.service.OwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * @author Krzysztof Kukla
@@ -33,15 +37,16 @@ public class OwnerController {
         dataBinder.setDisallowedFields("id");
     }
 
-    @RequestMapping({"", "/index"})
+    @RequestMapping({"/index"})
     public String ownersList(Model model) {
         model.addAttribute("owners", ownerService.findAll());
         return "owners/index";
     }
 
     @RequestMapping("/find")
-    public String find() {
-        return "notimplemented";
+    public String find(Model model) {
+        model.addAttribute("owner", Owner.builder().build());
+        return "owners/findOwners";
     }
 
     /**
@@ -61,6 +66,25 @@ public class OwnerController {
         //model.add attribute("owner", Owner object)
         modelAndView.addObject(ownerService.findById(id));
         return modelAndView;
+    }
+
+    @GetMapping
+    public String processFindForm(Owner owner, BindingResult bindingResult, Model model) {
+        if (owner.getLastName() == null) {
+            owner.setLastName("");
+        }
+        List<Owner> result = ownerService.findAllByLastNameLike(owner.getLastName());
+        if (result.isEmpty()) {
+            bindingResult.rejectValue("lastName", "Not found", "Not found");
+            return "owners/findOwners";
+        }
+        if (result.size() == 1) {
+            Long id = result.stream().findFirst().get().getId();
+            return "redirect:/owners/" + id;
+        } else {
+            model.addAttribute("selection", result);
+            return "owners/ownersList";
+        }
     }
 
 }
