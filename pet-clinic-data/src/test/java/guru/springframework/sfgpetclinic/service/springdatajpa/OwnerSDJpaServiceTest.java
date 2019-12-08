@@ -154,4 +154,9 @@ class OwnerSDJpaServiceTest {
         org.assertj.core.api.Assertions.assertThat(ownerService.findAllByLastNameLike(lastName)).isSameAs(ownerList);
     }
 
+    @Test
+    void findAllByLastNameLikeEmptyLastName() {
+        Assertions.assertEquals(ownerService.findAll().size(), ownerService.findAllByLastNameLike("").size());
+    }
+
 }
