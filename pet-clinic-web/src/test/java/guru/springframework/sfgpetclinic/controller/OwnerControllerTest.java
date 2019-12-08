@@ -129,7 +129,7 @@ class OwnerControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/owners"))
             .andExpect(status().isOk())
-            .andExpect(model().attribute("selection", Matchers.any(List.class)))
+            .andExpect(model().attribute("selections", Matchers.any(List.class)))
             .andExpect(model().hasNoErrors())
             .andExpect(view().name("owners/ownersList"));
         BDDMockito.then(ownerService).should().findAllByLastNameLike(anyString());
