@@ -7,6 +7,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -15,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.validation.BindingResult;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -38,9 +38,6 @@ class OwnerControllerTest {
 
     @Mock
     private OwnerService ownerService;
-
-    @Mock
-    private BindingResult bindingResult;
 
     @InjectMocks
     private OwnerController ownerController;
@@ -73,7 +70,7 @@ class OwnerControllerTest {
     }
 
     @Test
-    void find() throws Exception {
+    void findOwnerTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/owners/find"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(model().attribute("owner", Matchers.any(Owner.class)))
@@ -136,6 +133,60 @@ class OwnerControllerTest {
             .andExpect(model().hasNoErrors())
             .andExpect(view().name("owners/ownersList"));
         BDDMockito.then(ownerService).should().findAllByLastNameLike(anyString());
+    }
+
+    @Test
+    void initOwnerFormTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/owners/new"))
+            .andExpect(status().isOk())
+            .andExpect(model().attribute("owner", Matchers.any(Owner.class)))
+            .andExpect(view().name("/owners/createOrUpdateOwnerForm"));
+        BDDMockito.then(ownerService).shouldHaveNoInteractions();
+    }
+
+    @Test
+    void processOwnerFormHasErrors() {
+
+    }
+
+    @Test
+    void processOwnerFormNoErrors() throws Exception {
+        Owner owner = Owner.builder().id(1L).build();
+
+        BDDMockito.when(ownerService.save(ArgumentMatchers.any(Owner.class))).thenReturn(owner);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/owners/new"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(model().attribute("owner", Matchers.any(Owner.class)))
+            .andExpect(model().hasNoErrors())
+            .andExpect(view().name("redirect:/owners/1"));
+        BDDMockito.then(ownerService).should().save(ArgumentMatchers.any(Owner.class));
+    }
+
+    @Test
+    void initUpdateOwnerFormTest() throws Exception {
+        Owner owner = Owner.builder().id(1L).build();
+
+        BDDMockito.when(ownerService.findById(anyLong())).thenReturn(owner);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/owners/1/edit"))
+            .andExpect(status().isOk())
+            .andExpect(view().name("/owners/createOrUpdateOwnerForm"))
+            .andExpect(model().attribute("owner", Matchers.any(Owner.class)));
+        BDDMockito.then(ownerService).should(BDDMockito.times(1)).findById(anyLong());
+    }
+
+    @Test
+    void processUpdateOwnerFormNoErrorsTest() throws Exception {
+        Owner owner = Owner.builder().id(1L).build();
+
+        BDDMockito.when(ownerService.save(ArgumentMatchers.any(Owner.class))).thenReturn(owner);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/owners/1/edit"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(model().hasNoErrors())
+            .andExpect(view().name("redirect:/owners/1"));
+        BDDMockito.then(ownerService.save(ArgumentMatchers.any(Owner.class)));
     }
 
 }
