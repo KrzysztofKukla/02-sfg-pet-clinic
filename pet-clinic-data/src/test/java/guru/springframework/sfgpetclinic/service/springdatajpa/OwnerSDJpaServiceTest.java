@@ -142,4 +142,21 @@ class OwnerSDJpaServiceTest {
         BDDMockito.then(ownerRepository).should().deleteById(owner.getId());
     }
 
+    @Test
+    void findAllByLastNameLikeTest() {
+        String lastName = "John";
+        Owner owner1 = Owner.builder().id(1L).lastName(lastName).build();
+        Owner owner2 = Owner.builder().id(2L).lastName(lastName).build();
+        List<Owner> ownerList = Arrays.asList(owner1, owner2);
+
+        BDDMockito.when(ownerRepository.findAllByLastNameLike(lastName)).thenReturn(ownerList);
+
+        org.assertj.core.api.Assertions.assertThat(ownerService.findAllByLastNameLike(lastName)).isSameAs(ownerList);
+    }
+
+    @Test
+    void findAllByLastNameLikeEmptyLastName() {
+        Assertions.assertEquals(ownerService.findAll().size(), ownerService.findAllByLastNameLike("").size());
+    }
+
 }

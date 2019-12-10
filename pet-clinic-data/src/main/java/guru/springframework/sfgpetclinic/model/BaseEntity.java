@@ -30,4 +30,8 @@ public class BaseEntity implements Serializable {
     //box type is recommended by Hibernate
     private Long id;
 
+    public boolean isNew() {
+        return this.id == null;
+    }
+
 }

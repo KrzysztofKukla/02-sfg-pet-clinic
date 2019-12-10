@@ -15,7 +15,7 @@
 
 	<groupId>guru.springframework</groupId>
 	<artifactId>02-sfg-pet-clinic</artifactId>
-	<version>0.0.10-SNAPSHOT</version>
+	<version>0.0.11-SNAPSHOT</version>
 	<name>02-sfg-pet-clinic</name>
 	<description>SFG Pet Clinic Project</description>
 
