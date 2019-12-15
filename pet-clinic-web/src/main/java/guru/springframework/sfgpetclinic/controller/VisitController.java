@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.beans.PropertyEditorSupport;
+import java.time.LocalDate;
 
 /**
  * @author Krzysztof Kukla
@@ -31,8 +33,15 @@ public class VisitController {
     private final PetService petService;
 
     @InitBinder
-    public void setAllowedField(WebDataBinder webDataBinder) {
-        webDataBinder.setDisallowedFields("id");
+    public void dataBinder(WebDataBinder dataBinder) {
+        dataBinder.setDisallowedFields("id");
+
+        dataBinder.registerCustomEditor(LocalDate.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                setValue(LocalDate.parse(text));
+            }
+        });
     }
 
     //it will be going to run with every request against this controller
