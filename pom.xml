@@ -29,8 +29,8 @@
 	</properties>
 
 	<dependencies>
-<!--	JAXB was removed in Java 9 from standard libraries , which does exist in Java8
-		and if we still want to use it we have to add that
+<!--	old JAXB was removed from standard libraries in Java9, which does exist in Java8
+		and if we still want to use it we have to add that explicitly
 -->
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
