@@ -28,7 +28,7 @@ public class OwnerController {
     private final OwnerService ownerService;
 
     /**
-     * @InitBinder is very old Spring stuff and is not used in modern technology application
+     * InitBinder is very old Spring stuff and is not used in modern technology application
      * it allows to configuration binding variables from Java to Html especially like post form
      **/
     @InitBinder
